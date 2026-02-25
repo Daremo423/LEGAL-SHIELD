@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Legal Shield - Under Construction</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+      padding: 2rem;
+      max-width: 60ch;
+      margin: 0 auto;
+      color: #333;
+    }
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #000;
+      color: white;
+      padding: 8px;
+      z-index: 100;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+    main {
+      outline: none;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: white;
+      background-color: #000;
+      border: 2px solid #000;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 140px;
+    }
+    .btn-primary:hover:not(:disabled) {
+      background-color: #333;
+      border-color: #333;
+    }
+    .btn-primary:focus-visible {
+      outline: 2px solid #000;
+      outline-offset: 4px;
+    }
+    .btn-primary:disabled {
+      opacity: 0.9;
+      cursor: wait;
+    }
+    .btn-primary.success {
+      background-color: #059669; /* Emerald-600 */
+      border-color: #059669;
+    }
+    .btn-primary.success:hover {
+      background-color: #15803d; /* Emerald-700 */
+      border-color: #15803d;
+    }
+    .spinner {
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid #ffffff;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 0.5rem;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .success-icon {
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-right: 0.5rem;
+      animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <h1>Legal Shield</h1>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <p>This site is currently under construction. Please check back later.</p>
+
+    <button id="notify-btn" class="btn-primary" aria-label="Subscribe for updates">
+      <span class="btn-text">Notify me</span>
+    </button>
+    <div id="notify-status" role="status" aria-live="polite" class="sr-only"></div>
+  </main>
+
+  <script>
+    document.getElementById('notify-btn').addEventListener('click', function() {
+      const btn = this;
+      const btnText = btn.querySelector('.btn-text');
+      const status = document.getElementById('notify-status');
+
+      // Prevent double submission
+      if (btn.hasAttribute('aria-busy') && btn.getAttribute('aria-busy') === 'true') return;
+      if (btn.classList.contains('success')) return;
+
+      // Loading state
+      btn.setAttribute('aria-busy', 'true');
+      const originalText = 'Notify me'; // Hardcoded or retrieve from initial state
+
+      // Insert spinner
+      const spinner = document.createElement('span');
+      spinner.className = 'spinner';
+      spinner.setAttribute('aria-hidden', 'true');
+      btn.insertBefore(spinner, btnText);
+
+      btnText.textContent = 'Sending...';
+
+      // Simulate network request
+      setTimeout(() => {
+        // Success state
+        btn.removeAttribute('aria-busy');
+        btn.classList.add('success');
+
+        // Remove spinner
+        spinner.remove();
+
+        // Add success icon
+        const checkIcon = document.createElement('span');
+        checkIcon.className = 'success-icon';
+        checkIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>';
+        checkIcon.setAttribute('aria-hidden', 'true');
+        btn.insertBefore(checkIcon, btnText);
+
+        btnText.textContent = 'Subscribed!';
+
+        // Update live region
+        status.textContent = 'Successfully subscribed to updates.';
+
+        // Reset after delay
+        setTimeout(() => {
+          btn.classList.remove('success');
+          checkIcon.remove();
+          btnText.textContent = originalText;
+          status.textContent = '';
+        }, 3000);
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
