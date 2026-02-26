@@ -1,0 +1,3 @@
+## 2026-02-26 - Accessible Loading State
+**Learning:** Screen readers need explicit feedback for dynamic state changes. Using `aria-disabled="true"` instead of `disabled` keeps the button focusable but indicates it's not interactive, which is better for some users to understand *why* it's disabled if they can still reach it. Also, updating a live region (`role="status"`) is crucial for announcing the "Subscribing..." and "Success" states without moving focus immediately, until the final success state where focus management is appropriate.
+**Action:** When implementing async actions, always pair visual indicators (spinner, text change) with ARIA live regions and proper state attributes.
