@@ -1,0 +1,3 @@
+## 2026-04-30 - Prevent cascading opacity styles on terminal states
+**Learning:** When using semantic `aria-disabled="true"` to trigger loading or intermediate states (which often have reduced opacity like `opacity: 0.7`), this style can inadvertently cascade to terminal success states on the same element if not explicitly overridden. This causes WCAG AA contrast failures (e.g. dropping #15803d against white to ~2.9:1).
+**Action:** When transitioning an element with `aria-disabled="true"` to a terminal state (like `.success`), always explicitly specify `opacity: 1;` on the new state class to break the cascade and ensure color contrast compliance.
