@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Legal Shield - Under Construction</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+      padding: 2rem;
+      max-width: 60ch;
+      margin: 0 auto;
+      color: #333;
+    }
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #000;
+      color: white;
+      padding: 8px;
+      z-index: 100;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+    main {
+      outline: none;
+    }
+
+    /* Button Styles */
+    #notify-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      cursor: pointer;
+      background-color: #f3f4f6;
+      border: 1px solid #d1d5db;
+      color: #111827;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    #notify-btn:hover:not([aria-disabled="true"]):not(.success) {
+      background-color: #e5e7eb;
+    }
+
+    #notify-btn:focus-visible {
+      outline: 2px solid #000;
+      outline-offset: 2px;
+    }
+
+    #notify-btn[aria-disabled="true"] {
+      opacity: 0.7;
+      cursor: wait;
+    }
+
+    #notify-btn.success {
+      background-color: #15803d; /* Emerald-700 */
+      color: white;
+      border-color: transparent;
+      cursor: default;
+      opacity: 1;
+    }
+
+    /* Spinner Animation */
+    .spinner {
+      width: 1em;
+      height: 1em;
+      border: 2px solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    .success-icon {
+      width: 1.25em;
+      height: 1.25em;
+      animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      display: inline-block;
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <h1>Legal Shield</h1>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <p>This site is currently under construction. Please check back later.</p>
+
+    <button id="notify-btn">
+      <span class="spinner" aria-hidden="true" hidden></span>
+      <svg class="success-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" hidden>
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <span class="btn-text">Notify me</span>
+    </button>
+    <div id="status-region" role="status" aria-live="polite" class="sr-only"></div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('notify-btn');
+      const btnText = btn.querySelector('.btn-text');
+      const spinner = btn.querySelector('.spinner');
+      const successIcon = btn.querySelector('.success-icon');
+
+      const statusRegion = document.getElementById('status-region');
+
+      btn.addEventListener('click', () => {
+        // Prevent double submission
+        if (btn.getAttribute('aria-disabled') === 'true') return;
+
+        // Start loading state
+        btn.setAttribute('aria-disabled', 'true');
+        btn.setAttribute('aria-busy', 'true');
+        statusRegion.textContent = 'Subscribing, please wait.';
+
+        spinner.removeAttribute('hidden');
+        btnText.textContent = 'Subscribing...';
+
+        // Simulate network request
+        setTimeout(() => {
+          // Success state
+          btn.removeAttribute('aria-busy');
+          spinner.setAttribute('hidden', '');
+          successIcon.removeAttribute('hidden');
+          btnText.textContent = "You're in!";
+
+          btn.classList.add('success');
+          statusRegion.textContent = 'Successfully subscribed!';
+        }, 2000);
+      });
+    });
+  </script>
+</body>
+</html>
