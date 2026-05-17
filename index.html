@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Legal Shield - Under Construction</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+      padding: 2rem;
+      max-width: 60ch;
+      margin: 0 auto;
+      color: #333;
+    }
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #000;
+      color: white;
+      padding: 8px;
+      z-index: 100;
+      transition: transform 0.2s;
+    }
+    .skip-link:focus {
+      top: 0;
+      transform: translateY(0);
+    }
+    main {
+      outline: none;
+    }
+
+    button {
+      background-color: #000;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: 2px solid #000;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    button:hover {
+      background-color: #333;
+      border-color: #333;
+    }
+
+    button:focus-visible {
+      outline: 2px solid #000;
+      outline-offset: 2px;
+    }
+
+    button[aria-disabled="true"] {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    button.success {
+      background-color: #fff;
+      color: #15803d; /* Emerald-700 */
+      border-color: #15803d;
+      cursor: default;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      border: 2px solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0); }
+      to { transform: scale(1); }
+    }
+
+    .scale-in {
+      animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      color: #059669; /* Emerald-600 */
+      display: inline-flex;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <h1>Legal Shield</h1>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <p>This site is currently under construction. Please check back later.</p>
+
+    <button type="button" id="notify-btn">
+      Notify me
+    </button>
+    <div id="status-message" role="status" class="sr-only"></div>
+  </main>
+
+  <script>
+    const btn = document.getElementById('notify-btn');
+    const status = document.getElementById('status-message');
+
+    btn.addEventListener('click', () => {
+      if (btn.getAttribute('aria-disabled') === 'true' || btn.classList.contains('success')) return;
+
+      // Loading state
+      btn.setAttribute('aria-disabled', 'true');
+      const originalText = btn.textContent.trim();
+      btn.innerHTML = `Subscribing... <span class="spinner" aria-hidden="true"></span>`;
+      status.textContent = 'Subscribing...';
+
+      // Simulate network request
+      setTimeout(() => {
+        // Success state
+        btn.removeAttribute('aria-disabled');
+        btn.classList.add('success');
+        btn.innerHTML = `<span class="scale-in" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </span> Subscribed!`;
+        status.textContent = 'Successfully subscribed!';
+        btn.focus();
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
