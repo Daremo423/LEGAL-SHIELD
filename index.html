@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Legal Shield - Under Construction</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+      padding: 2rem;
+      max-width: 60ch;
+      margin: 0 auto;
+      color: #333;
+    }
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #000;
+      color: white;
+      padding: 8px;
+      z-index: 100;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+    main {
+      outline: none;
+    }
+
+    /* Button Styles */
+    #notify-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      cursor: pointer;
+      background-color: #f3f4f6;
+      border: 1px solid #d1d5db;
+      color: #111827;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    #notify-btn:hover:not([aria-disabled="true"]):not(.success) {
+      background-color: #e5e7eb;
+    }
+
+    #notify-btn:focus-visible {
+      outline: 2px solid #000;
+      outline-offset: 2px;
+    }
+
+    #notify-btn[aria-disabled="true"] {
+      opacity: 0.7;
+      cursor: wait;
+    }
+
+    #notify-btn.success {
+      background-color: #15803d; /* Emerald-700 */
+      color: white;
+      border-color: transparent;
+      cursor: default;
+    }
+
+    /* Spinner Animation */
+    .spinner {
+      width: 1em;
+      height: 1em;
+      border: 2px solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <h1>Legal Shield</h1>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <p>This site is currently under construction. Please check back later.</p>
+
+    <button id="notify-btn" aria-label="Subscribe for updates">Notify me</button>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('notify-btn');
+
+      btn.addEventListener('click', () => {
+        // Prevent double submission
+        if (btn.getAttribute('aria-disabled') === 'true') return;
+
+        // Start loading state
+        btn.setAttribute('aria-disabled', 'true');
+        const originalText = btn.innerText;
+        btn.innerHTML = '<span class="spinner" aria-hidden="true"></span> Notify me';
+
+        // Simulate network request
+        setTimeout(() => {
+          // Success state
+          btn.innerHTML = "You're in!";
+          btn.classList.add('success');
+          // Note: Focus remains on the button, so screen reader should announce the text change
+          // when the user navigates or if it's a live region.
+          // Since it's a button, changing text while focused is generally announced.
+        }, 2000);
+      });
+    });
+  </script>
+</body>
+</html>
