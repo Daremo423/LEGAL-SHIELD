@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Legal Shield - Under Construction</title>
+    <style>
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        line-height: 1.5;
+        padding: 2rem;
+        max-width: 60ch;
+        margin: 0 auto;
+        color: #333;
+      }
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: #000;
+        color: white;
+        padding: 8px;
+        z-index: 100;
+      }
+      .skip-link:focus {
+        top: 0;
+      }
+      main {
+        outline: none;
+      }
+
+      /* Added styles for button and accessibility */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+
+      button {
+        background-color: #000;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border: 2px solid #000;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition:
+          background-color 0.2s,
+          transform 0.1s;
+      }
+
+      button:hover {
+        background-color: #333;
+        border-color: #333;
+      }
+
+      button:focus-visible {
+        outline: 2px solid #000;
+        outline-offset: 2px;
+      }
+
+      button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      button.success {
+        background-color: #15803d; /* Emerald-700 */
+        border-color: #15803d;
+        cursor: default;
+      }
+
+      button.success:hover {
+        background-color: #15803d;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+      <h1>Legal Shield</h1>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <p>This site is currently under construction. Please check back later.</p>
+
+      <button type="button" aria-label="Subscribe for updates" id="notify-btn">
+        Notify me
+      </button>
+      <div id="status-message" role="status" class="sr-only"></div>
+    </main>
+
+    <script>
+      const btn = document.getElementById('notify-btn');
+      const status = document.getElementById('status-message');
+
+      btn.addEventListener('click', () => {
+        if (btn.classList.contains('success')) return;
+
+        // Loading state
+        btn.disabled = true;
+        btn.textContent = 'Subscribing...';
+        status.textContent = 'Subscribing...';
+
+        // Simulate network request
+        setTimeout(() => {
+          // Success state
+          btn.disabled = false;
+          btn.classList.add('success');
+          btn.textContent = '✅ Subscribed!';
+          status.textContent = 'Successfully subscribed!';
+          btn.focus();
+        }, 2000);
+      });
+    </script>
+  </body>
+</html>
