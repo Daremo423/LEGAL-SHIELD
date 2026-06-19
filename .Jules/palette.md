@@ -1,0 +1,7 @@
+## 2026-04-30 - Prevent cascading opacity styles on terminal states
+**Learning:** When using semantic `aria-disabled="true"` to trigger loading or intermediate states (which often have reduced opacity like `opacity: 0.7`), this style can inadvertently cascade to terminal success states on the same element if not explicitly overridden. This causes WCAG AA contrast failures (e.g. dropping #15803d against white to ~2.9:1).
+**Action:** When transitioning an element with `aria-disabled="true"` to a terminal state (like `.success`), always explicitly specify `opacity: 1;` on the new state class to break the cascade and ensure color contrast compliance.
+
+## 2026-05-01 - Prevent DOM churn for status icons
+**Learning:** Programmatically creating elements (e.g. `document.createElement`, `document.createElementNS`) for button state icons during interaction can cause unnecessary DOM churn and requires extra parsing effort, particularly for SVGs.
+**Action:** Pre-define status icons in the HTML structure with the `hidden` attribute and manage their visibility by toggling the attribute. For elements with explicit CSS `display` properties (like `inline-block`), a global rule `[hidden] { display: none !important; }` is necessary to ensure the attribute functions as expected. Additionally, wrapping the button's text in a dedicated element (e.g., `<span class="btn-text">`) allows text updates without overwriting the entire button content.
